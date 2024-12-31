@@ -1,11 +1,8 @@
 from uuid import uuid4
 
-import pytest
 from httpx import Client
 
 HEADER_NAME = "Request-Correlation-Id"
-
-pytestmark = pytest.mark.filterwarnings("ignore::DeprecationWarning")
 
 
 def test_success_propagates_header(client: Client) -> None:
