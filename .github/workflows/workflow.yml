@@ -3,7 +3,6 @@ name: Reproduce issue
 
 on:
   push:
-    branches: [ main ]
 
 jobs:
   test:
