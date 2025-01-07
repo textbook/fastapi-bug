@@ -1,18 +1,19 @@
 from http import HTTPStatus
-from typing import Optional
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Response
-from typing_extensions import Annotated
+from fastapi import FastAPI, HTTPException, Request
 
 
-def request_id(
-    response: Response,
-    request_correlation_id: Annotated[Optional[str], Header()] = None,
-) -> None:
-    if request_correlation_id is not None:
-        response.headers.append("Request-Correlation-Id", request_correlation_id)
+app = FastAPI()
 
-app = FastAPI(dependencies=[Depends(request_id)])
+
+@app.middleware("http")
+async def propagate_request_id(request: Request, call_next):
+    response = await call_next(request)
+    if (
+        request_correlation_id := request.headers.get("Request-Correlation-Id")
+    ) is not None:
+        response.headers["Request-Correlation-Id"] = request_correlation_id
+    return response
 
 
 @app.get("/success")
