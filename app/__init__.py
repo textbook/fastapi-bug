@@ -22,4 +22,9 @@ def _() -> None:
 
 @app.get("/failure")
 def _() -> None:
-    raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
+    raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
+
+
+@app.get("/error")
+def _() -> None:
+    raise ValueError("oh no!")

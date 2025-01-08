@@ -8,6 +8,7 @@ from __future__ import annotations
 from collections.abc import Generator
 from socket import socket
 from threading import Thread
+from uuid import uuid4
 
 import pytest
 from fastapi import FastAPI
@@ -15,6 +16,11 @@ from httpx import Client
 from uvicorn import Config, Server
 
 from app import app
+
+
+@pytest.fixture
+def correlation_id() -> str:
+    return str(uuid4())
 
 
 @pytest.fixture(scope="module")
